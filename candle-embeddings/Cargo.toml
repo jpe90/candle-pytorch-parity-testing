@@ -1,0 +1,20 @@
+[package]
+name = "embeddings"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0"
+candle-core = "0.9.1"
+candle-nn = "0.9.1"
+candle-transformers = "0.9.1"
+clap = { version = "4.5.38", features = ["derive"] }
+hf-hub = { version = "0.4.2", features = ["tokio"] }
+tokenizers = { version = "0.21", features = ["onig"] }
+serde_json = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+intel-mkl-src = { version = "0.8.1", features = ["mkl-static-lp64-iomp"], optional = true}
+
+[features]
+default = []
+mkl = ["dep:intel-mkl-src", "candle-core/mkl", "candle-nn/mkl", "candle-transformers/mkl"]
