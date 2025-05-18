@@ -62,7 +62,7 @@ fn main() -> Result<()> {
             .to_vec();
         let token_ids = Tensor::new(&tokens[..], device)?.unsqueeze(0)?;
         let token_type_ids = token_ids.zeros_like()?;
-        let start = std::time::Instant::now();
+        // let start = std::time::Instant::now();
         let ys = model.forward(&token_ids, &token_type_ids, None)?;
         let embeddings = if args.normalize_embeddings {
         normalize_l2(&ys)?
@@ -70,7 +70,7 @@ fn main() -> Result<()> {
             ys
         };
         println!("{embeddings}");
-        println!("Took {:?}", start.elapsed());
+        // println!("Took {:?}", start.elapsed());
 
     } else {
         let sentences = [

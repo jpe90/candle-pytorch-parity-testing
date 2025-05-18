@@ -1,6 +1,13 @@
-# PyTorch Embeddings
+# PyTorch BERT Embeddings
 
 Python reference implementation using PyTorch and Transformers with `sentence-transformers/all-MiniLM-L6-v2` model.
+
+## Overview
+
+This implementation serves as the reference for the Candle BERT implementation, demonstrating:
+- Hugging Face Transformers API usage for BERT
+- PyTorch's built-in normalization functions
+- Standard cosine similarity calculations
 
 ## Quick Start
 

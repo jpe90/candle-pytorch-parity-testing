@@ -33,7 +33,7 @@ def main():
         print(f"prompt: {prompt}")
         encoded_input = tokenizer(prompt, padding=True, truncation=True, return_tensors='pt')
         encoded_input = {k: v.to(device) for k, v in encoded_input.items()}
-        start_time = time.time()
+        # start_time = time.time()
         
         with torch.no_grad():
             outputs = model(**encoded_input)
@@ -45,7 +45,7 @@ def main():
             embeddings = normalize_l2(embeddings)
             
         print(embeddings)
-        print(f"Took {time.time() - start_time:.4f} seconds")
+        # print(f"Took {time.time() - start_time:.4f} seconds")
         
     else:
         sentences = [

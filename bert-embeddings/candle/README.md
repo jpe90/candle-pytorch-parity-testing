@@ -1,6 +1,15 @@
-# Candle Embeddings
+# Candle BERT Embeddings
 
 Rust implementation using the Candle framework with `sentence-transformers/all-MiniLM-L6-v2` model.
+
+## Overview
+
+This implementation demonstrates using Candle to:
+- Generate embeddings from text
+- Apply L2 normalization
+- Calculate cosine similarity between embeddings
+
+The core implementation is based on Candle's [BERT example](https://github.com/huggingface/candle/blob/main/candle-examples/examples/bert/main.rs).
 
 ## Quick Start
 
