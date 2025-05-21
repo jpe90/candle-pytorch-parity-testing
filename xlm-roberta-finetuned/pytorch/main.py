@@ -34,13 +34,21 @@ encoding = tokenizer(
     return_tensors="pt",
 )
 
+# dump config
+print("========== CONFIGURATION ==========")
+print(f"Model Name: {model.name_or_path}")
+print(f"Model Network: {model}")
+print(f"Model Config: {model.config}")
+
 output = model(**encoding)
+
+print(f"PyTorch logits: {output.logits}")
 
 formality_scores = [
     {id2formality[idx]: score for idx, score in enumerate(text_scores.tolist())}
     for text_scores in output.logits.softmax(dim=1)
 ]
-print("Formality Scores:")
+print("Formality Scores:\n")
 for i, (text, scores) in enumerate(zip(texts, formality_scores)):
     print(f"Text {i+1}: \"{text}\"")
     for formality, score in scores.items():
