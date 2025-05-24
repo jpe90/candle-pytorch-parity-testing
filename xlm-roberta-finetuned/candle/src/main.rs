@@ -14,10 +14,6 @@ static DEVICE: candle_core::Device = candle_core::Device::Cpu;
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
 struct Args {
-    /// Run on CPU rather than on GPU.
-    #[arg(long)]
-    cpu: bool,
-
     /// The model to use
     #[arg(long, default_value = "s-nlp/xlmr_formality_classifier")]
     model_id: String,
@@ -45,15 +41,7 @@ struct Args {
 fn build_model_and_tokenizer(
     args: &Args,
 ) -> Result<(XLMRobertaForSequenceClassification, Tokenizer)> {
-    let device = if args.cpu {
-        &DEVICE
-    } else {
-        #[cfg(feature = "cuda")]
-        let device = candle_core::Device::new_cuda(0)?;
-        #[cfg(not(feature = "cuda"))]
-        let device = &DEVICE;
-        device
-    };
+    let device = &DEVICE;
 
     let api = Api::new()?;
     let repo = api.repo(Repo::with_revision(
@@ -138,15 +126,7 @@ fn build_model_and_tokenizer(
 
 fn main() -> Result<()> {
     let args = Args::parse();
-    let device = if args.cpu {
-        &DEVICE
-    } else {
-        #[cfg(feature = "cuda")]
-        let device = candle_core::Device::new_cuda(0)?;
-        #[cfg(not(feature = "cuda"))]
-        let device = &DEVICE;
-        device
-    };
+    let device = &DEVICE;
 
     let (model, tokenizer) = build_model_and_tokenizer(&args)?;
 
@@ -175,7 +155,6 @@ fn process_texts(
     tokenizer: &Tokenizer,
     device: &Device,
 ) -> Result<()> {
-    // let inference_time = std::time::Instant::now();
 
     let tokens = tokenizer
         .encode_batch(sentences.to_vec(), true)
@@ -209,7 +188,6 @@ fn process_texts(
         .forward(&input_ids, &attention_mask, &token_type_ids)?
         .to_dtype(candle_core::DType::F32)?;
 
-    // println!("Inference completed in {:?}", inference_time.elapsed());
     println!("Candle logits: {:?}", logits.to_vec2::<f32>()?);
 
     let predictions = logits.argmax(1)?.to_vec1::<u32>()?;
